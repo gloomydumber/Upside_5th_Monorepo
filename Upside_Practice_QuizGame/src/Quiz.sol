@@ -55,7 +55,7 @@ contract Quiz{
         require(msg.value >= Quiz_itemArr[quizId - 1].min_bet, "you should bet at least minimum bet value");
         require(msg.value <= Quiz_itemArr[quizId - 1].max_bet, "you should bet at most maximum bet value");
 
-        bets[quizId - 1][msg.sender] += msg.value; // bets index 조정
+        bets[quizId - 1][msg.sender] += msg.value;
     }
 
     function solveQuiz(uint quizId, string memory ans) public returns (bool) {
@@ -81,10 +81,9 @@ contract Quiz{
         uint256 prize;
         uint256 length = Quiz_itemArr.length;
         
-        // 푼 문제 체크
         for (uint i = 0; i < length; ++i) {
             if (solved[i + 1][msg.sender]) {
-                prize += (bets[i][msg.sender] * 2);  // bets index 조정 원래 + 1
+                prize += (bets[i][msg.sender] * 2); 
             }
         }
 
