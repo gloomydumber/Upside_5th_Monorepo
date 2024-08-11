@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 contract Lottery {
     uint256 public phaseStartTime;
-    uint16 public winningNumber; // its trait of type uint16, there is range of limit of number, utilize it (0 ~ 65535)
+    uint16 public winningNumber;
 
     mapping(address => uint256) claimable;
     mapping(address => uint16) bet;
@@ -44,7 +44,6 @@ contract Lottery {
             }
         }
 
-        // If a rollover happens in a lottery, the previously issued tickets are generally not eligible for the new phase or draw.
         if (isAllClaimed) {
             for(uint256 i = 0; i < length; ++i)  {
                 bet[participants[i]] = 0;
@@ -57,7 +56,7 @@ contract Lottery {
         }
     }
 
-    function draw() public { // 추첨
+    function draw() public {
         require(block.timestamp >= (phaseStartTime + 24 hours), "Not Drawable: The Selling Phase is still ongoing");
         winningNumber = generateWinningNumber();
 
@@ -80,7 +79,7 @@ contract Lottery {
         }
     }
 
-    function generateWinningNumber() internal view returns (uint16) { // it's not literally random though, Oracle is needed
+    function generateWinningNumber() internal view returns (uint16) {
         return uint16(uint256( 
             keccak256(
                 abi.encodePacked(
